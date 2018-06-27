@@ -141,7 +141,6 @@ class Game extends React.Component {
 
     // move is index
     const moves = history.map((step, move) => {
-
       const lastPlayed = (move % 2) === 0 ? 'O' : 'X' // note reversal of typical X/O ? conditional      
       const lastPositionRow = this.convertArrayIndexToRow(step.lastPlayedArrayIndex)
       const lastPositionColumn = this.convertArrayIndexToColumn(step.lastPlayedArrayIndex)
@@ -152,7 +151,11 @@ class Game extends React.Component {
 
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          { move === this.state.stepNumber ? (
+            <button onClick={() => this.jumpTo(move)}><strong>{desc}</strong></button>
+          ) : (
+            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          )}
         </li>
       )
     })
