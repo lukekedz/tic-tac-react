@@ -49,6 +49,7 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        lastPlayedPosition: null,
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -69,6 +70,7 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        lastPlayedPosition: i,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
@@ -82,14 +84,70 @@ class Game extends React.Component {
     })
   }
 
+  convertPositionToRow(position) {
+    switch(position) {
+      case 0:
+        return 1
+      case 1:
+        return 1
+      case 2:
+        return 1
+
+      case 3:
+        return 2
+      case 4:
+        return 2
+      case 5:
+        return 2
+
+      case 6:
+        return 3
+      case 7:
+        return 3
+      case 8:
+        return 3
+    }
+  }
+
+  convertPositionToColumn(position) {
+    switch(position) {
+      case 0:
+        return 1
+      case 3:
+        return 1
+      case 6:
+        return 1
+
+      case 1:
+        return 2
+      case 4:
+        return 2
+      case 7:
+        return 2
+
+      case 2:
+        return 3
+      case 5:
+        return 3
+      case 8:
+        return 3
+    }
+  }
+
   render() {
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = calculateWinner(current.squares)
 
+    // move is index
     const moves = history.map((step, move) => {
+
+      const lastPlayed = (move % 2) === 0 ? 'O' : 'X' // note reversal of typical X/O ? conditional      
+      const lastPositionRow = this.convertPositionToRow(step.lastPlayedPosition)
+      const lastPositionColumn = this.convertPositionToColumn(step.lastPlayedPosition)
+
       const desc = move ?
-        'Go to move #' + move :
+        'Go to move #' + move + ' ( ' + lastPlayed + ' at row: ' + lastPositionRow + ', col: ' + lastPositionColumn + ' ) ' :
         'Go to game start'
 
       return (
