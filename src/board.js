@@ -17,7 +17,6 @@ export class Board extends React.Component {
 
   renderBoard() {
     let board = []
-    let row = []
     let squareId = 0
 
     for ( let i = 0; i < 3; i++ ) {

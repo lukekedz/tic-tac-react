@@ -108,7 +108,7 @@ class Game extends React.Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i]
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        this.state.winningSquares = lines[i]
+        this.setState({winningSquares: lines[i]})
       }
     }
   }
