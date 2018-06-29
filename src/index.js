@@ -17,6 +17,7 @@ class Game extends React.Component {
       stepNumber: 0,
       xIsNext: true,
       sortAsc: true,
+      winningSquares: [],
     }
   }
 
@@ -90,6 +91,27 @@ class Game extends React.Component {
     this.setState({sortAsc: !this.state.sortAsc})
   }
 
+  // TODO: basic functionality repeated in ./calculateWinner.js
+  highlightWinningSquares(squares) {
+    const lines = [
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6],
+    ]
+
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i]
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        this.state.winningSquares = lines[i]
+      }
+    }
+  }
+
   render() {
     // const history = this.state.sortAsc ? this.state.history.reverse() : this.state.history
     const history = this.state.history
@@ -120,6 +142,7 @@ class Game extends React.Component {
     let status
     if (winner) {
       status = 'Winner: ' + winner
+      this.highlightWinningSquares(current.squares)
     } else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O')
     }
@@ -130,6 +153,7 @@ class Game extends React.Component {
           <Board 
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
+            winningSquares={this.state.winningSquares}
           />
         </div>
         <div className="game-info">

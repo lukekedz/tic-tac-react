@@ -7,6 +7,8 @@ export class Board extends React.Component {
     return (
       <Square
         key={id}
+        id={id}
+        winningSquares={this.props.winningSquares}
         value={this.props.squares[id]} 
         onClick={() => this.props.onClick(id)}
       />
