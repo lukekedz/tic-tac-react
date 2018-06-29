@@ -16,6 +16,7 @@ class Game extends React.Component {
       }],
       stepNumber: 0,
       xIsNext: true,
+      sortAsc: true,
     }
   }
 
@@ -85,7 +86,12 @@ class Game extends React.Component {
     }
   }
 
+  sort() {
+    this.setState({sortAsc: !this.state.sortAsc})
+  }
+
   render() {
+    // const history = this.state.sortAsc ? this.state.history.reverse() : this.state.history
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = calculateWinner(current.squares)
@@ -96,16 +102,16 @@ class Game extends React.Component {
       const lastPositionRow = this.convertArrayIndexToRow(step.lastPlayedArrayIndex)
       const lastPositionColumn = this.convertArrayIndexToColumn(step.lastPlayedArrayIndex)
 
-      const desc = move ?
+      const asc = move ?
         'Go to move #' + move + ' ( ' + lastPlayed + ' at row: ' + lastPositionRow + ', col: ' + lastPositionColumn + ' ) ' :
         'Go to game start'
 
       return (
         <li key={move}>
           { move === this.state.stepNumber ? (
-            <button onClick={() => this.jumpTo(move)}><strong>{desc}</strong></button>
+            <button onClick={() => this.jumpTo(move)}><strong>{asc}</strong></button>
           ) : (
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+            <button onClick={() => this.jumpTo(move)}>{asc}</button>
           )}
         </li>
       )
@@ -128,7 +134,9 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <br/>
+          <button onClick={() => this.sort()}>Sort {this.state.sortAsc ? 'Descending' : 'Ascending'}</button>
+          <ol>{this.state.sortAsc ? moves : moves.reverse()}</ol>
         </div>
       </div>
     )
